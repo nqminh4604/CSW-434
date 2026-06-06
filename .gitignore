@@ -31,3 +31,20 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+
+# React Native
+**/node_modules/
+**/.gradle/
+**/build/
+**/.idea/
+**/.cxx/
+**/Pods/
+**/.yarn/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.*
