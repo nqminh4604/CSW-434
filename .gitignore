@@ -1,70 +1,134 @@
-# Gradle files
-.gradle/
-build/
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
 
-# Local configuration file (sdk path, etc)
+# =========================
+# Logs
+# =========================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Environment Variables
+# =========================
+.env
+.env.*
+
+# =========================
+# Node.js
+# =========================
+**/node_modules/
+**/.npm/
+**/.yarn/
+**/.pnp/
+**/.pnp.js
+
+# =========================
+# Coverage / Testing
+# =========================
+**/coverage/
+**/.nyc_output/
+
+# =========================
+# React Native / Metro
+# =========================
+**/.metro-health-check*
+**/.expo/
+**/.expo-shared/
+
+# =========================
+# Android
+# =========================
+.gradle/
+**/.gradle/
+
+build/
+**/build/
+
+.externalNativeBuild/
+**/.externalNativeBuild/
+
+.cxx/
+**/.cxx/
+
+captures/
 local.properties
 
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
 *.apk
+*.aab
 output.json
 
-# IntelliJ
-*.iml
+google-services.json
+
+*.jks
+*.keystore
+
+*.hprof
+
+# =========================
+# iOS / Xcode
+# =========================
+**/Pods/
+
+DerivedData/
+**/DerivedData/
+
+*.pbxuser
+!default.pbxuser
+
+*.mode1v3
+!default.mode1v3
+
+*.mode2v3
+!default.mode2v3
+
+*.perspectivev3
+!default.perspectivev3
+
+xcuserdata/
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.xcuserstate
+
+**/.xcode.env.local
+
+# =========================
+# Fastlane
+# =========================
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots/
+**/fastlane/test_output/
+
+# =========================
+# IntelliJ / Android Studio
+# =========================
 .idea/
+**/.idea/
+
+*.iml
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
 
-# Keystore files
-*.jks
-*.keystore
+# =========================
+# Bundle Artifacts
+# =========================
+*.jsbundle
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
+# =========================
+# Kotlin
+# =========================
+.kotlin/
 
-# Android Profiling
-*.hprof
-
-
-# React Native
-**/node_modules/
-**/.gradle/
-**/build/
-**/.idea/
-**/.cxx/
-**/Pods/
-**/.yarn/
-
-# Logs
-*.log
-
-# Environment
-.env
-.env.*
-
-# Xcode
-#
-build/
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-xcuserdata
-*.xccheckout
-*.moved-aside
-DerivedData
-*.hmap
-*.ipa
-*.xcuserstate
-**/.xcode.env.local
+# =========================
+# Temporary
+# =========================
+tmp/
+temp/
