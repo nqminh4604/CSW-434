@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-    View,
-    TextInput,
-    StyleSheet,
-    TouchableOpacity,
-    Text,
+    Alert,
     Modal,
     Pressable,
-    Alert,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 
 import FirebaseService from '../services/firebase';
@@ -22,7 +22,6 @@ const NoteDetailScreen = ({
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [color, setColor] = useState('#F7ECA3');
-
     const [menuVisible, setMenuVisible] =
         useState(false);
 
@@ -40,18 +39,21 @@ const NoteDetailScreen = ({
             );
 
         return unsubscribe;
-    }, []);
+    }, [noteId]);
 
     const saveNote = async () => {
-        await FirebaseService.updateNote(
-            noteId,
-            title,
-            content,
-        );
+        try {
+            await FirebaseService.updateNote(
+                noteId,
+                title,
+                content,
+            );
 
-        setMenuVisible(false);
-
-        navigation.goBack();
+            setMenuVisible(false);
+            navigation.goBack();
+        } catch (error) {
+            showError('Save failed', error);
+        }
     };
 
     const deleteNote = async () => {
@@ -69,11 +71,18 @@ const NoteDetailScreen = ({
                     text: 'Yes',
                     style: 'destructive',
                     onPress: async () => {
-                        await FirebaseService.deleteNote(
-                            noteId,
-                        );
+                        try {
+                            await FirebaseService.deleteNote(
+                                noteId,
+                            );
 
-                        navigation.goBack();
+                            navigation.goBack();
+                        } catch (error) {
+                            showError(
+                                'Delete failed',
+                                error,
+                            );
+                        }
                     },
                 },
             ],
@@ -91,7 +100,7 @@ const NoteDetailScreen = ({
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                 >
-                    <Text style={styles.icon}>←</Text>
+                    <Text style={styles.icon}>{'<'}</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.headerTitle}>
@@ -103,9 +112,7 @@ const NoteDetailScreen = ({
                         setMenuVisible(true)
                     }
                 >
-                    <Text style={styles.menuIcon}>
-                        ⋮
-                    </Text>
+                    <Text style={styles.menuIcon}>...</Text>
                 </TouchableOpacity>
             </View>
 
@@ -155,9 +162,7 @@ const NoteDetailScreen = ({
                             <Text
                                 style={[
                                     styles.menuText,
-                                    {
-                                        color: 'red',
-                                    },
+                                    styles.deleteText,
                                 ]}
                             >
                                 Delete
@@ -168,6 +173,15 @@ const NoteDetailScreen = ({
             </Modal>
         </View>
     );
+};
+
+const showError = (title: string, error: unknown) => {
+    const message =
+        error instanceof Error
+            ? error.message
+            : 'Something went wrong. Please try again.';
+
+    Alert.alert(title, message);
 };
 
 export default NoteDetailScreen;
@@ -239,5 +253,9 @@ const styles = StyleSheet.create({
     menuText: {
         fontSize: 16,
         fontWeight: '500',
+    },
+
+    deleteText: {
+        color: 'red',
     },
 });

@@ -3,7 +3,6 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  View,
 } from 'react-native';
 
 import { Note } from '../types/Note';

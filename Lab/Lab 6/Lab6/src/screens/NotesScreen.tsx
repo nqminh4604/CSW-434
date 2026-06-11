@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import {
-    View,
-    Text,
-    StyleSheet,
+    Alert,
     FlatList,
-    TouchableOpacity,
+    StyleSheet,
+    Text,
     TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 
-import FirebaseService from '../services/firebase';
-
-import { Note } from '../types/Note';
 import NoteCard from '../components/NoteCard';
+import FirebaseService from '../services/firebase';
+import { Note } from '../types/Note';
 
 const COLORS = [
     '#F7ECA3',
@@ -24,9 +24,7 @@ const COLORS = [
 
 const NotesScreen = ({ navigation }: any) => {
     const [allNotes, setAllNotes] = useState<Note[]>([]);
-
     const [searchText, setSearchText] = useState('');
-
     const [showSearch, setShowSearch] = useState(false);
 
     useEffect(() => {
@@ -72,10 +70,27 @@ const NotesScreen = ({ navigation }: any) => {
         });
     };
 
+    const signOut = async () => {
+        try {
+            await FirebaseService.signOut();
+        } catch (error) {
+            const message =
+                error instanceof Error
+                    ? error.message
+                    : 'Unable to sign out.';
+
+            Alert.alert('Sign out failed', message);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.menu}>☰</Text>
+                <TouchableOpacity onPress={signOut}>
+                    <Text style={styles.headerAction}>
+                        Sign out
+                    </Text>
+                </TouchableOpacity>
 
                 <Text style={styles.headerTitle}>
                     Recent Notes
@@ -86,8 +101,8 @@ const NotesScreen = ({ navigation }: any) => {
                         setShowSearch(!showSearch)
                     }
                 >
-                    <Text style={styles.search}>
-                        ⌕
+                    <Text style={styles.headerAction}>
+                        Search
                     </Text>
                 </TouchableOpacity>
             </View>
@@ -105,14 +120,14 @@ const NotesScreen = ({ navigation }: any) => {
                 data={filteredNotes}
                 keyExtractor={item => item.id}
                 numColumns={2}
-                columnWrapperStyle={{
-                    justifyContent: 'space-between',
-                }}
-                contentContainerStyle={{
-                    paddingBottom: 120,
-                }}
+                columnWrapperStyle={
+                    styles.columnWrapper
+                }
+                contentContainerStyle={
+                    styles.listContent
+                }
                 renderItem={({ item }) => (
-                    <View style={{ width: '48%' }}>
+                    <View style={styles.noteWrapper}>
                         <NoteCard
                             note={item}
                             onPress={() =>
@@ -162,12 +177,10 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
 
-    menu: {
-        fontSize: 28,
-    },
-
-    search: {
-        fontSize: 28,
+    headerAction: {
+        color: '#FF5A7A',
+        fontSize: 14,
+        fontWeight: '700',
     },
 
     headerTitle: {
@@ -182,6 +195,18 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         fontSize: 16,
         marginBottom: 20,
+    },
+
+    columnWrapper: {
+        justifyContent: 'space-between',
+    },
+
+    listContent: {
+        paddingBottom: 120,
+    },
+
+    noteWrapper: {
+        width: '48%',
     },
 
     emptyContainer: {
